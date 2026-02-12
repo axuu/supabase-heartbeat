@@ -1,0 +1,49 @@
+name: Ping Supabase Database
+
+on:
+  schedule:
+    - cron: "0 9 * * 1,4" # 每周一和周四 UTC 09:00 (北京时间 17:00)
+  workflow_dispatch: # 允许手动触发
+
+jobs:
+  ping:
+    runs-on: ubuntu-latest
+    env:
+      SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+      SUPABASE_KEY: ${{ secrets.SUPABASE_KEY }}
+      TABLE_NAME: ${{ secrets.TABLE_NAME || 'user' }}
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+
+      - name: Install dependencies
+        run: npm install @supabase/supabase-js
+
+      - name: Preflight checks
+        run: |
+          if [ -z "$SUPABASE_URL" ]; then
+            echo "::error::Missing secret SUPABASE_URL"
+            exit 1
+          fi
+
+          if [ -z "$SUPABASE_KEY" ]; then
+            echo "::error::Missing secret SUPABASE_KEY"
+            exit 1
+          fi
+
+          if [ -z "$TABLE_NAME" ]; then
+            echo "::error::Missing secret TABLE_NAME"
+            exit 1
+          fi
+
+          echo "SUPABASE_URL is set"
+          echo "SUPABASE_KEY is set"
+          echo "TABLE_NAME=$TABLE_NAME"
+
+      - name: Ping Supabase
+        run: node index.js
