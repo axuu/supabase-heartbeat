@@ -2,7 +2,7 @@ name: Ping Supabase Database
 
 on:
   schedule:
-    - cron: "0 9 * * 1,4" # 每周一和周四 UTC 09:00 (北京时间 17:00)
+    - cron: "0 9 * * *" # 每天 UTC 09:00 (北京时间 17:00)
   workflow_dispatch: # 允许手动触发
 
 jobs:

@@ -6,7 +6,7 @@
 
 ## Features
 
-- Automatically runs every Monday and Thursday at UTC 9:00
+- Automatically runs daily at UTC 9:00
 - Supports manual triggering
 - Queries the `user` table to keep the database active
 - Prevents free tier Supabase databases from pausing due to inactivity (7 days)
@@ -43,7 +43,7 @@
 ## Workflow Details
 
 - **Trigger Schedule**: 
-  - Automatic: Every Monday and Thursday at UTC 9:00
+  - Automatic: Daily at UTC 9:00
   - Manual: Can be triggered manually on the GitHub Actions page
   
 - **Execution Steps**:
